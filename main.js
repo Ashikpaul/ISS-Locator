@@ -21,20 +21,17 @@ var LeafIcon = L.Icon.extend({
 });
 
 locateISS = async () =>{
-  await fetch('http://api.open-notify.org/iss-now.json',{
-    method: 'GET',
-    mode: 'cors',
-    cache: 'default',
-  }).then(response => response.json())
+  await fetch('https://api.wheretheiss.at/v1/satellites/25544')
+  .then(response => response.json())
     .then(data => {
       if(!marker){
-        mymap.setView([data.iss_position.latitude, data.iss_position.longitude], 3);
-        marker = L.marker([data.iss_position.latitude, data.iss_position.longitude], {
+        mymap.setView([data.latitude, data.longitude], 3);
+        marker = L.marker([data.latitude, data.longitude], {
           zIndexOffset: 1000,
           icon: new LeafIcon({iconUrl: 'rocket.png'}),
         }).addTo(mymap);
       }else{
-        marker.setLatLng([data.iss_position.latitude, data.iss_position.longitude]);
+        marker.setLatLng([data.latitude, data.longitude]);
         marker.update();
       }
       setTimeout(()=>{ locateISS(); },2000);
