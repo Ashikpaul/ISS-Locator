@@ -21,8 +21,11 @@ var LeafIcon = L.Icon.extend({
 });
 
 locateISS = async () =>{
-  await fetch('http://api.open-notify.org/iss-now.json')
-    .then(response => response.json())
+  await fetch('http://api.open-notify.org/iss-now.json',{
+    method: 'GET',
+    mode: 'cors',
+    cache: 'default',
+  }).then(response => response.json())
     .then(data => {
       if(!marker){
         mymap.setView([data.iss_position.latitude, data.iss_position.longitude], 3);
